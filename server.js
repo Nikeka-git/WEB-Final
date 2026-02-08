@@ -159,23 +159,30 @@ app.get('/api/stats', async (req, res) => {
         const [totalUsers, totalTutorials, statsResult] = await Promise.all([
             User.estimatedDocumentCount(),
             Tutorial.estimatedDocumentCount(),
-            Tutorial.aggregate([
-                { $group: { _id: null, totalViews: { $sum: '$views' } } }
-            ])
+            Tutorial.aggregate([{ $group: { _id: null, totalViews: { $sum: '$views' } } }])
         ]);
 
         const totalViews = statsResult[0]?.totalViews || 0;
-
-        res.json({
+        const stats = {
             tutorials: totalTutorials,
             authors: totalUsers,
             views: totalViews
-        });
+        };
+        try {
+            const githubRes = await fetch('https://api.github.com/repos/nodejs/node');
+            const github = await githubRes.json();
+            stats.githubStars = github.stargazers_count || 0;
+            stats.githubLanguage = github.language || 'JavaScript';
+        } catch(e) {
+            stats.githubStars = 'N/A';
+        }
+
+        res.json(stats);
     } catch (error) {
-        console.error('Stats error:', error);
         res.status(500).json({ message: 'Stats unavailable' });
     }
 });
+
 
 app.use(errorHandler);
 

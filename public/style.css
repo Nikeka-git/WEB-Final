@@ -501,14 +501,30 @@ body {
 }
 
 .stat {
+    flex: 1;
+    min-width: 130px;
+    max-width: 160px;
+    background: rgba(255,255,255,0.05);
+    padding: 1.5rem 0.75rem;
+    border-radius: 12px;
+    border: 1px solid #333;
     text-align: center;
 }
 
 .stat-number {
-    font-size: 2.5rem;
+    font-size: 1.9rem;
     font-weight: 700;
-    color: #00d4ff;
+    background: linear-gradient(135deg, #00d4ff, #64ffda);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
 }
+
+.stat:has(#githubStarsStat) .stat-number {
+    font-size: 1.7rem;
+}Z
 
 .stat-label {
     color: #888;
@@ -868,5 +884,32 @@ body {
         font-size: 0.9rem;
     }
 
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.stat {
+    text-align: center;
+    background: rgba(255,255,255,0.05);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #333;
+    flex: 1;
+    max-width: 150px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00d4ff, #64ffda);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25rem;
 }
 

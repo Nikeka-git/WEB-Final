@@ -432,17 +432,27 @@ class CodingTutorialsApp {
             const response = await fetch('/api/stats');
             const stats = await response.json();
 
-            document.getElementById('totalTutorialsStat').textContent = stats.tutorials;
-            document.getElementById('totalAuthorsStat').textContent = stats.authors;
-            document.getElementById('totalViewsStat').textContent = stats.views;
+            document.getElementById('totalTutorialsStat').textContent = stats.tutorials || 0;
+            document.getElementById('totalAuthorsStat').textContent = stats.authors || 0;
+            document.getElementById('totalViewsStat').textContent = stats.views?.toLocaleString() || 0;
+
+            if (stats.githubStars && !document.getElementById('githubStarsStat')) {
+                const heroStats = document.querySelector('.hero-stats');
+                const stars = Number(stats.githubStars).toLocaleString();
+                const githubStat = document.createElement('div');
+                githubStat.className = 'stat';
+                githubStat.innerHTML = `
+                <div class="stat-number" id="githubStarsStat">${stars}</div>
+                <div class="stat-label">GitHub Stars</div>
+            `;
+                heroStats.appendChild(githubStat);
+            }
+
         } catch (error) {
-            console.log('Stats loading failed, using defaults');
-            // Fallback
-            document.getElementById('totalTutorialsStat').textContent = '0';
-            document.getElementById('totalAuthorsStat').textContent = '0';
-            document.getElementById('totalViewsStat').textContent = '0';
+            console.log('Stats error:', error);
         }
     }
+
 
 
 
