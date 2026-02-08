@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Tutorials - Learn Programming</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1>Coding Tutorials</h1>
+        </div>
+        <div class="nav-actions">
+            <button id="loginBtn" class="btn btn-primary">Sign In</button>
+            <button id="profileBtn" class="btn btn-outline" style="display:none;">Profile</button>
+            <button id="logoutBtn" class="btn btn-danger" style="display:none;">Sign Out</button>
+        </div>
+
+    </nav>
+
+    <!-- Hero Section -->
+    <div id="heroSection" class="hero-section">
+        <div class="hero-content">
+            <h1>Create & Share Coding Tutorials</h1>
+            <p>Write step-by-step guides, share your knowledge, and help others master programming</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number" id="totalTutorialsStat">0</div>
+                    <div class="stat-label">Tutorials</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="totalAuthorsStat">0</div>
+                    <div class="stat-label">Authors</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="totalViewsStat">0</div>
+                    <div class="stat-label">Views</div>
+                </div>
+            </div>
+            <button id="getStartedBtn" class="btn btn-primary btn-large">Get Started</button>
+        </div>
+    </div>
+
+    <!-- Auth Section -->
+    <div id="authSection" class="auth-section" style="display:none;">
+        <div class="auth-container">
+            <!-- Login Form -->
+            <div class="auth-form active" id="loginForm">
+                <h2>Welcome Back</h2>
+                <p>Sign in to manage your tutorials</p>
+                <form id="loginFormEl">
+                    <div class="input-group">
+                        <input type="email" id="loginEmail" placeholder="Email address" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width">Sign In</button>
+                </form>
+                <p class="auth-switch">Don't have an account? <a href="#" id="showRegister">Sign up here</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form" id="registerForm" style="display:none;">
+                <h2>Create Account</h2>
+                <p>Join our coding community</p>
+                <form id="registerFormEl">
+                    <div class="input-group">
+                        <input type="text" id="regUsername" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="regEmail" placeholder="Email address" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="regPassword" placeholder="Password (min 6 chars)" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width">Create Account</button>
+                </form>
+                <p class="auth-switch">Already have an account? <a href="#" id="showLogin">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Main Dashboard -->
+    <div id="mainSection" class="main-section" style="display:none;">
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div>
+                    <h2 id="profileName">Welcome!</h2>
+                    <p id="profileEmail"></p>
+                </div>
+                <button id="editProfileBtn" class="btn btn-outline">Edit Profile</button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalTutorials">0</div>
+                <div class="stat-label">Total Tutorials</div>
+            </div>
+            <div class="stat-card highlight">
+                <div class="stat-number" id="draftTutorials">0</div>
+                <div class="stat-label">Drafts</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button id="createTutorialBtn" class="btn btn-primary btn-large">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Create New Tutorial
+            </button>
+        </div>
+
+        <!-- Tutorials Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>My Tutorials</h2>
+                <div class="section-tabs">
+                    <button class="tab active" data-tab="all" data-group="my">All</button>
+                    <button class="tab" data-tab="published" data-group="my">Published</button>
+                    <button class="tab" data-tab="drafts" data-group="my">Drafts</button>
+                </div>
+            </div>
+            <div id="tutorialsList" class="tutorials-grid"></div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <h2>All Tutorials</h2>
+                <div class="section-tabs">
+                    <button class="tab active" data-tab="all-public" data-group="public">All</button>
+                    <button class="tab" data-tab="recent" data-group="public">Recent</button>
+                </div>
+            </div>
+            <div id="publicTutorialsList" class="tutorials-grid"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Create/Edit Tutorial Modal -->
+<div id="tutorialModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Create New Tutorial</h2>
+            <button class="close-btn" id="closeTutorialModalBtn">×</button>
+        </div>
+        <form id="tutorialForm">
+            <div class="input-group">
+                <input type="text" id="tutorialTitle" placeholder="Tutorial title" required>
+            </div>
+
+            <!-- Tutorial sections -->
+            <div id="sectionsContainer">
+                <div class="section-editor" data-section-index="0">
+                    <h4>Section 1: <input type="text" class="section-title" placeholder="Section title"></h4>
+                    <textarea class="section-content" rows="4" placeholder="Section content..."></textarea>
+
+                    <!-- Quiz -->
+                    <div class="quiz-builder">
+                        <h5>Add Quiz (optional):</h5>
+                        <input class="quiz-question" placeholder="Question?">
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" name="q0_correct" value="0">
+                                <input type="text" class="quiz-option-text" placeholder="Option 1">
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" name="q0_correct" value="1">
+                                <input type="text" class="quiz-option-text" placeholder="Option 2">
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" name="q0_correct" value="2">
+                                <input type="text" class="quiz-option-text" placeholder="Option 3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="addSectionBtn" class="btn btn-outline">+ Add Section</button>
+
+            <div class="input-group">
+                <input type="text" id="tutorialTags" placeholder="Tags (comma separated)">
+            </div>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn btn-primary">Save Tutorial</button>
+                <button type="button" class="btn btn-outline" id="cancelTutorialBtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Edit Profile Modal -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Edit Profile</h2>
+            <button class="close-btn" id="closeProfileModalBtn">×</button>
+        </div>
+        <form id="profileForm">
+            <div class="input-group">
+                <input type="text" id="editUsername" placeholder="Enter your username" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="editEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+                <button type="button" class="btn btn-outline" id="cancelProfileBtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
